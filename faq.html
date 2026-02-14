@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>FAQ · JN Sourcing</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- EmailJS SDK -->
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <style>
+    /* ---------- GLOBAL STYLES (identical to index) ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --text: #111827;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --shadow: 0 8px 20px rgba(0,0,0,0.02);
+      --footer-bg: #0f172a;
+      --footer-text: #f8fafc;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --text-light: #94a3b8;
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #1e3a5f;
+      --shadow: 0 8px 20px rgba(0,0,0,0.4);
+      --footer-bg: #020617;
+      --footer-text: #e2e8f0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+    }
+
+    /* ---------- HEADER – ULTRA SLIM (no search) ---------- */
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .logo h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      white-space: nowrap;
+    }
+    .logo p {
+      color: var(--text-light);
+      font-size: 0.6rem;
+      line-height: 1;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .cart-icon, .dark-toggle {
+      position: relative;
+      font-size: 1.1rem;
+      color: var(--text);
+      cursor: pointer;
+      background: var(--surface);
+      padding: 0.35rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 600;
+      padding: 0.1rem 0.35rem;
+      border-radius: 20px;
+    }
+
+    /* ---------- CART DRAWER (identical) ---------- */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 380px;
+      max-width: 90%;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1500;
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+    .close-cart { font-size: 1.6rem; cursor: pointer; }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item { display: flex; gap: 0.8rem; margin-bottom: 0.8rem; padding-bottom: 0.8rem; border-bottom: 1px solid var(--border); }
+    .cart-item-img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; }
+    .cart-item-details { flex: 1; }
+    .cart-item-qty { display: flex; align-items: center; gap: 0.4rem; margin-top: 0.2rem; }
+    .qty-btn { background: var(--border); border: none; width: 24px; height: 24px; border-radius: 5px; cursor: pointer; }
+    .checkout-btn { width: 100%; padding: 0.7rem; background: var(--primary); color: white; border: none; border-radius: 5px; font-weight: 600; margin-top: 0.8rem; cursor: pointer; }
+
+    /* ---------- CHECKOUT MODAL ---------- */
+    .checkout-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.75);
+      align-items: center;
+      justify-content: center;
+      z-index: 2500;
+      padding: 1rem;
+    }
+    .checkout-content {
+      background: var(--surface);
+      max-width: 480px;
+      width: 100%;
+      border-radius: 24px;
+      padding: 1.5rem;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .form-group { margin-bottom: 0.8rem; }
+    .form-group label { display: block; margin-bottom: 0.2rem; font-weight: 500; font-size: 0.9rem; }
+    .form-group input, .form-group textarea { width: 100%; padding: 0.6rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); }
+
+    /* ---------- CHAT MODAL ---------- */
+    .chat-modal {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 5%;
+      width: 90%;
+      max-width: 340px;
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+      z-index: 1800;
+      border: 1px solid var(--border);
+    }
+    .chat-header {
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem;
+      border-radius: 16px 16px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header h3 { font-size: 1rem; }
+    .chat-header button { background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; }
+    .chat-body { padding: 0.8rem; }
+    .bot-message { background: var(--bg); padding: 0.6rem; border-radius: 10px; margin-bottom: 0.6rem; font-size: 0.9rem; }
+    .chat-input { display: flex; gap: 6px; }
+    .chat-input input { flex: 1; padding: 0.6rem; border: 1px solid var(--border); border-radius: 6px; background: var(--surface); color: var(--text); }
+
+    .floating-chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+      cursor: pointer;
+      border: none;
+      z-index: 1700;
+    }
+
+    /* ---------- FOOTER ---------- */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 2rem 1.5rem 1rem;
+      margin-top: 2rem;
+    }
+    .footer-content {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+    }
+    .footer-section h3 { font-size: 0.95rem; margin-bottom: 0.6rem; }
+    .footer-section ul { list-style: none; }
+    .footer-section li { margin-bottom: 0.4rem; }
+    .footer-section a { color: #cbd5e1; text-decoration: none; font-size: 0.85rem; }
+    .footer-section a:hover { color: white; }
+    .social-icons { display: flex; gap: 0.8rem; font-size: 1.1rem; }
+    .copyright { text-align: center; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #334155; color: #94a3b8; font-size: 0.75rem; }
+
+    /* ---------- PAGE SPECIFIC – FAQ CONTENT ---------- */
+    .faq-container {
+      padding: 2rem 0;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .faq-title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    .faq-item {
+      margin-bottom: 1.5rem;
+    }
+    .faq-question {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+    .faq-answer {
+      color: var(--text-light);
+    }
+    .faq-answer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== HEADER ========== -->
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>JN Sourcing</h1>
+        <p>Nigeria · Your Personal Shopper</p>
+      </div>
+      <div style="flex:1;"></div> <!-- spacer -->
+      <div class="header-controls">
+        <div class="dark-toggle" id="darkToggle">
+          <i class="fas fa-moon"></i>
+        </div>
+        <div class="cart-icon" id="cartIcon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== FAQ CONTENT ========== -->
+    <div class="faq-container">
+      <h1 class="faq-title">Frequently Asked Questions</h1>
+      
+      <div class="faq-item">
+        <h3 class="faq-question">🛒 How do I place an order?</h3>
+        <p class="faq-answer">Add items to your cart, proceed to checkout, fill in your delivery details, and place the order. You will receive an SMS confirmation from the owner.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">💳 What payment methods do you accept?</h3>
+        <p class="faq-answer">We accept bank transfers, USSD, OPay, PalmPay, and cash on delivery in select areas.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">🚚 How long does delivery take?</h3>
+        <p class="faq-answer">Lagos: 5-7 business days. Other states: 3-5 business days.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">🔄 Can I return an item?</h3>
+        <p class="faq-answer">Yes, you can return items within 7 days of delivery. See our <a href="return-policy.html">Return Policy</a> for details.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">📞 How do I contact the owner?</h3>
+        <p class="faq-answer">Use the chat button on this page or call 0911-911-0314. We typically respond within 1 hour.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">💰 Are prices negotiable?</h3>
+        <p class="faq-answer">Prices are negotiable, but we offer discounts for bulk orders. Please chat with us to inquire.</p>
+      </div>
+      <div class="faq-item">
+        <h3 class="faq-question">🔒 Is my information secure?</h3>
+        <p class="faq-answer">Yes, your personal data is encrypted and never shared. See our <a href="privacy-policy.html">Privacy Policy</a>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CART DRAWER ========== -->
+  <div id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-cart" id="closeCart">&times;</span>
+    </div>
+    <div id="cartItemsContainer" class="cart-items"></div>
+    <div style="margin-top: auto;">
+      <div class="cart-total" id="cartTotalDisplay" style="font-size:1.2rem; font-weight:700; margin-bottom:0.5rem;">Total: ₦0</div>
+      <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <!-- ========== CHECKOUT MODAL ========== -->
+  <div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+      <h2 style="margin-bottom:0.8rem;">Checkout</h2>
+      <div id="checkoutOrderSummary" style="background:var(--bg); padding:0.8rem; border-radius:8px; margin-bottom:1rem;"></div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="checkoutName" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="checkoutPhone" placeholder="0803 123 4567">
+      </div>
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea id="checkoutAddress" rows="2" placeholder="12, Awolowo Road, Ikeja, Lagos"></textarea>
+      </div>
+      <button id="placeOrderBtn" class="btn btn-primary" style="width:100%; padding:0.7rem; background:var(--primary); color:white; border:none; border-radius:5px; font-weight:600; cursor:pointer;">Place Order (SMS Owner)</button>
+      <button id="closeCheckoutModal" style="width:100%; background:none; border:none; color:var(--text); margin-top:0.8rem; cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ========== CHAT MODAL ========== -->
+  <div id="chatModal" class="chat-modal">
+    <div class="chat-header">
+      <h3><i class="fas fa-robot"></i> JN Assistant</h3>
+      <button id="closeChatBtn">&times;</button>
+    </div>
+    <div class="chat-body">
+      <div class="bot-message">
+        👋 Hello! Tell me what you need – I will alert the owner immediately.
+      </div>
+      <div id="chatProductContext" style="background:var(--primary-light); padding:0.4rem; border-radius:6px; margin-bottom:0.6rem; display:none;"></div>
+      <div class="chat-input">
+        <input type="text" id="userMessage" placeholder="Type your message...">
+        <button class="btn btn-primary" id="sendChatBtn" style="background:var(--primary); color:white; border:none; border-radius:6px; padding:0.6rem 1rem; cursor:pointer;">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FLOATING CHAT BUTTON ========== -->
+  <button class="floating-chat-btn" id="floatingChatBtn">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+
+  <!-- ========== FOOTER ========== -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>JN Sourcing</h3>
+        <p style="color:#cbd5e1; font-size:0.85rem; margin-bottom:0.5rem;">Your trusted personal shopper in Nigeria.</p>
+        <div class="social-icons">
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-tiktok"></i></a>
+        </div>
+      </div>
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="index.html">All Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Policies</h3>
+        <ul>
+          <li><a href="return-policy.html">Return Policy</a></li>
+          <li><a href="shipping-policy.html">Shipping Policy</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul>
+          <li><i class="fas fa-phone"></i> 0911-911-0314</li>
+          <li><a href="faq.html">FAQ</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 JN Sourcing. All prices in Nigerian Naira (₦).
+    </div>
+  </footer>
+
+  <script>
+    // ---------- 40 PRODUCTS (required for cart) – IDENTICAL TO INDEX ----------
+    const products = [
+      { id: 1, title: "Classic Snapback Cap", price: 16500, cat: "Accessories", img: "https://images.unsplash.com/photo-1588850565948-5388c1b8f3cb?w=500", desc: "Premium cotton snapback, one size fits all." },
+      { id: 2, title: "Vintage Dad Hat", price: 14800, cat: "Accessories", img: "https://images.unsplash.com/photo-1521369909022-2b962b7e0487?w=500", desc: "Embroidered logo, low profile, adjustable strap." },
+      { id: 3, title: "Nike Dri-FIT Cap", price: 19200, cat: "Fashion", img: "https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=500", desc: "Sweat-wicking fabric, curved brim." },
+      { id: 4, title: "Designer Bucket Hat", price: 17800, cat: "Fashion", img: "https://images.unsplash.com/photo-1556909212-d5b604d0c90d?w=500", desc: "Unisex bucket hat, 100% cotton." },
+      { id: 5, title: "Genuine Leather Backpack", price: 38900, cat: "Bags", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", desc: "Handmade leather, fits 15-inch laptop." },
+      { id: 6, title: "Designer Tote Bag", price: 42500, cat: "Bags", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Genuine leather, gold hardware." },
+      { id: 7, title: "Louis Vuitton Inspired Bag", price: 44500, cat: "Bags", img: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=500", desc: "Monogram canvas, includes dust bag." },
+      { id: 8, title: "Travel Duffel Bag", price: 35900, cat: "Bags", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", desc: "60L duffel, waterproof." },
+      { id: 9, title: "Air Max 90", price: 48500, cat: "Shoes", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500", desc: "Original, white/red, size 40-45." },
+      { id: 10, title: "Gucci Ace Sneakers", price: 55000, cat: "Shoes", img: "https://images.unsplash.com/photo-1525966222134-fcfa99b8ae77?w=500", desc: "High-quality replica, embroidered bee." },
+      { id: 11, title: "Leather Loafers", price: 32500, cat: "Shoes", img: "https://images.unsplash.com/photo-1614252369475-531eba835eb1?w=500", desc: "Genuine leather, office wear." },
+      { id: 12, title: "Yeezy Boost 350", price: 52000, cat: "Shoes", img: "https://images.unsplash.com/photo-1529810313688-44ea1c2d81d3?w=500", desc: "Knit upper, boost sole." },
+      { id: 13, title: "iPhone 13 Pro Max", price: 750000, cat: "Electronics", img: "https://images.unsplash.com/photo-1605236453806-6ff36851218e?w=500", desc: "128GB, Sierra Blue, unlocked." },
+      { id: 14, title: "Samsung Galaxy S22 Ultra", price: 685000, cat: "Electronics", img: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=500", desc: "Phantom Black, 256GB." },
+      { id: 15, title: "MacBook Air M1", price: 595000, cat: "Electronics", img: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500", desc: "13-inch, 8GB RAM, 256GB SSD." },
+      { id: 16, title: "Sony WH-1000XM4", price: 185000, cat: "Electronics", img: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=500", desc: "Noise-cancelling, 30hr battery." },
+      { id: 17, title: "Slim Fit Jeans", price: 18900, cat: "Fashion", img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=500", desc: "Stretch denim, dark blue." },
+      { id: 18, title: "Polo T-Shirt", price: 12500, cat: "Fashion", img: "https://images.unsplash.com/photo-1586363104862-3a5e2ab60d99?w=500", desc: "Cotton pique, embroidered logo." },
+      { id: 19, title: "Hoodie", price: 22900, cat: "Fashion", img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=500", desc: "Kangaroo pocket, fleece lined." },
+      { id: 20, title: "Blazer", price: 38500, cat: "Fashion", img: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=500", desc: "Single-breasted, navy blue." },
+      { id: 21, title: "Ray-Ban Aviator", price: 28500, cat: "Accessories", img: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=500", desc: "Gold frame, green lenses." },
+      { id: 22, title: "Silver Chain", price: 18900, cat: "Accessories", img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500", desc: "Stainless steel, 22 inches." },
+      { id: 23, title: "Leather Belt", price: 14500, cat: "Accessories", img: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500", desc: "Genuine leather, reversible." },
+      { id: 24, title: "Smartwatch", price: 32500, cat: "Gadgets", img: "https://images.unsplash.com/photo-1579586337278-3befd40fd17a?w=500", desc: "Fitness tracker, heart rate." },
+      { id: 25, title: "Non-stick Cookware Set", price: 42900, cat: "Home", img: "https://images.unsplash.com/photo-1586201375761-83865001e31c?w=500", desc: "7-piece, granite coating." },
+      { id: 26, title: "LED Smart Bulb", price: 8900, cat: "Home", img: "https://images.unsplash.com/photo-1550985616-1084c9e4bfb2?w=500", desc: "RGB, voice control, 4-pack." },
+      { id: 27, title: "Memory Foam Pillow", price: 18500, cat: "Home", img: "https://images.unsplash.com/photo-1584103936592-5b2566d0e1d9?w=500", desc: "Ergonomic, cooling gel." },
+      { id: 28, title: "Air Fryer", price: 58500, cat: "Home", img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500", desc: "4.5L, digital touch." },
+      { id: 29, title: "Wireless Earbuds", price: 22900, cat: "Gadgets", img: "https://images.unsplash.com/photo-1605464315542-bda3e2f4e605?w=500", desc: "Bluetooth 5.3, charging case." },
+      { id: 30, title: "Power Bank 20000mAh", price: 16500, cat: "Gadgets", img: "https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=500", desc: "Fast charging, dual USB." },
+      { id: 31, title: "Bluetooth Speaker", price: 27900, cat: "Gadgets", img: "https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500", desc: "Waterproof, 20W." },
+      { id: 32, title: "Gaming Mouse", price: 18500, cat: "Gadgets", img: "https://images.unsplash.com/photo-1527814050087-3793815479db?w=500", desc: "RGB, 16000 DPI." },
+      { id: 33, title: "Michael Kors Bag", price: 42500, cat: "Bags", img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=500", desc: "Signature logo, saffiano leather." },
+      { id: 34, title: "Nike Air Force 1", price: 38900, cat: "Shoes", img: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=500", desc: "All white, leather." },
+      { id: 35, title: "Digital Watch", price: 15900, cat: "Accessories", img: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=500", desc: "Casio-style, stopwatch." },
+      { id: 36, title: "Coffee Machine", price: 69500, cat: "Home", img: "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=500", desc: "Espresso, 15 bar." },
+      { id: 37, title: "iPad 10th Gen", price: 395000, cat: "Electronics", img: "https://images.unsplash.com/photo-1585792180666-f7347c490ee2?w=500", desc: "10.9-inch, 64GB, Wi-Fi." },
+      { id: 38, title: "Wireless Charger", price: 12500, cat: "Gadgets", img: "https://images.unsplash.com/photo-1622445275576-721325763afe?w=500", desc: "15W fast charging." },
+      { id: 39, title: "Polo Shirt", price: 13500, cat: "Fashion", img: "https://images.unsplash.com/photo-1596755094514-f87e34085b38?w=500", desc: "Classic fit, pique cotton." },
+      { id: 40, title: "Suitcase", price: 48900, cat: "Bags", img: "https://images.unsplash.com/photo-1565022536202-e3006b7f4b26?w=500", desc: "ABS+PC, spinner wheels." }
+    ];
+
+    // ---------- GLOBAL VARS ----------
+    let cart = JSON.parse(localStorage.getItem('jnCart')) || [];
+
+    // ---------- CART FUNCTIONS (identical to index) ----------
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id);
+      if (existing) existing.qty += 1;
+      else cart.push({ ...product, qty: 1 });
+      localStorage.setItem('jnCart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function updateCartBadge() {
+      const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+      document.getElementById('cartBadge').innerText = totalQty;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cartItemsContainer');
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-light);">Your cart is empty.</p>';
+        document.getElementById('cartTotalDisplay').innerHTML = 'Total: ₦0';
+        return;
+      }
+      let html = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        html += `
+          <div class="cart-item">
+            <img src="${item.img}" class="cart-item-img">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.title}</div>
+              <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+              <div class="cart-item-qty">
+                <button class="qty-btn" onclick="adjustQty(${item.id}, -1)">−</button>
+                <span>${item.qty}</span>
+                <button class="qty-btn" onclick="adjustQty(${item.id}, 1)">+</button>
+                <button class="qty-btn" onclick="removeFromCart(${item.id})" style="margin-left:0.5rem;"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+      document.getElementById('cartTotalDisplay').innerHTML = `Total: ₦${total.toLocaleString()}`;
+    }
+
+    function adjustQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+        localStorage.setItem('jnCart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+      }
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      localStorage.setItem('jnCart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    // ---------- CART DRAWER ----------
+    const cartDrawer = document.getElementById('cartDrawer');
+    document.getElementById('cartIcon').addEventListener('click', () => {
+      cartDrawer.classList.add('open');
+      renderCartItems();
+    });
+    document.getElementById('closeCart').addEventListener('click', () => {
+      cartDrawer.classList.remove('open');
+    });
+
+    // ---------- CHECKOUT ----------
+    const checkoutModal = document.getElementById('checkoutModal');
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const itemsList = cart.map(i => `${i.title} x${i.qty}`).join(', ');
+      document.getElementById('checkoutOrderSummary').innerHTML = `<strong>Order Summary</strong><br>Items: ${itemsList}<br>Total: ₦${total.toLocaleString()}`;
+      checkoutModal.style.display = 'flex';
+      cartDrawer.classList.remove('open');
+    });
+    document.getElementById('closeCheckoutModal').addEventListener('click', () => {
+      checkoutModal.style.display = 'none';
+    });
+
+    // ---------- EMAILJS (SMS) – REPLACE WITH YOUR KEYS ----------
+    const EMAILJS_PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+    const EMAILJS_SERVICE_ID = 'YOUR_SERVICE_ID';
+    const EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+    (function initEmailJS() {
+      if (EMAILJS_PUBLIC_KEY !== 'YOUR_PUBLIC_KEY') {
+        emailjs.init(EMAILJS_PUBLIC_KEY);
+      }
+    })();
+
+    function sendSMS(message) {
+      if (EMAILJS_PUBLIC_KEY === 'YOUR_PUBLIC_KEY') {
+        alert(`📲 DEMO: Message would be sent to 0911-911-0314\n\n${message}`);
+        return Promise.resolve();
+      } else {
+        return emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          to_email: '09119110314@globesms.com',
+          message: message,
+          from_name: 'JN Sourcing'
+        });
+      }
+    }
+
+    document.getElementById('placeOrderBtn').addEventListener('click', function() {
+      const name = document.getElementById('checkoutName').value.trim();
+      const phone = document.getElementById('checkoutPhone').value.trim();
+      const address = document.getElementById('checkoutAddress').value.trim();
+      if (!name || !phone || !address) {
+        alert('Please fill in your name, phone number and address.');
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const items = cart.map(i => `${i.title} (x${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('\n');
+      const orderMsg = `🛒 NEW ORDER - JN Sourcing\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nItems:\n${items}\nTotal: ₦${total.toLocaleString()}`;
+      sendSMS(orderMsg).then(() => {
+        alert('Your order has been placed. The owner will contact you shortly.');
+        cart = [];
+        localStorage.setItem('jnCart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+        checkoutModal.style.display = 'none';
+      }).catch(err => {
+        alert('Failed to send order. Please try again.');
+        console.error(err);
+      });
+    });
+
+    // ---------- CHAT ----------
+    function openChatModal() {
+      document.getElementById('chatModal').style.display = 'block';
+    }
+    function closeChatModal() {
+      document.getElementById('chatModal').style.display = 'none';
+    }
+    window.openChatWithProduct = function(productName) {
+      const ctx = document.getElementById('chatProductContext');
+      ctx.style.display = 'block';
+      ctx.innerHTML = `📦 You are asking about: <strong>${productName}</strong>`;
+      openChatModal();
+    };
+    document.getElementById('floatingChatBtn').addEventListener('click', openChatModal);
+    document.getElementById('closeChatBtn').addEventListener('click', closeChatModal);
+    document.getElementById('sendChatBtn').addEventListener('click', function() {
+      const msg = document.getElementById('userMessage').value.trim();
+      if (!msg) return;
+      const ctx = document.getElementById('chatProductContext');
+      let product = 'Not specified';
+      if (ctx.style.display !== 'none') {
+        product = ctx.innerText.replace('📦 You are asking about:', '').trim();
+      }
+      const chatMsg = `💬 CHAT from JN Sourcing\nProduct: ${product}\nMessage: ${msg}`;
+      sendSMS(chatMsg).then(() => {
+        document.getElementById('userMessage').value = '';
+        ctx.style.display = 'none';
+        closeChatModal();
+        alert('Your message has been sent to the owner.');
+      }).catch(err => {
+        alert('Failed to send message.');
+        console.error(err);
+      });
+    });
+
+    // ---------- DARK MODE ----------
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const icon = darkToggle.querySelector('i');
+      if (document.body.classList.contains('dark')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+      localStorage.setItem('jnDarkMode', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('jnDarkMode') === 'dark') {
+      document.body.classList.add('dark');
+      darkToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+    }
+
+    // ---------- INIT ----------
+    updateCartBadge();
+    renderCartItems();
+  </script>
+</body>
+</html>

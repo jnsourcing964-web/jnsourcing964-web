@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>JN Sourcing · Nigeria · Your Personal Shopper</title>
+  <!-- Font Awesome 6 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ---------- GLOBAL STYLES (original) ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    :root {
+      --bg: #f9fafb;
+      --surface: #ffffff;
+      --text: #111827;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #dbeafe;
+      --shadow: 0 8px 20px rgba(0,0,0,0.02);
+      --footer-bg: #0f172a;
+      --footer-text: #f8fafc;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text: #f1f5f9;
+      --text-light: #94a3b8;
+      --border: #334155;
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #1e3a5f;
+      --shadow: 0 8px 20px rgba(0,0,0,0.4);
+      --footer-bg: #020617;
+      --footer-text: #e2e8f0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+    }
+
+    /* ---------- HEADER – ORIGINAL WITH SHORTER SEARCH BAR ---------- */
+    header {
+      display: flex;
+      flex-direction: column;
+      padding: 0.4rem 0;
+      border-bottom: 2px solid var(--primary);
+      margin-bottom: 1rem;
+    }
+
+    .logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #2563eb, #7c3aed);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 0.3rem;
+    }
+    .logo p {
+      color: var(--text-light);
+      font-size: 0.7rem;
+    }
+
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .search-wrapper {
+      flex: 1 1 200px;
+    }
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 0 0 0 0.8rem;
+      width: 100%;
+      max-width: 260px;
+      height: 36px;
+    }
+    .search-box input {
+      border: none;
+      background: transparent;
+      padding: 0.2rem 0;
+      flex: 1;
+      min-width: 100px;
+      outline: none;
+      color: var(--text);
+      font-size: 0.85rem;
+    }
+    .search-box button {
+      background: var(--primary);
+      border: none;
+      border-radius: 30px;
+      padding: 0.2rem 1rem;
+      color: white;
+      font-weight: 500;
+      font-size: 0.8rem;
+      cursor: pointer;
+      height: 30px;
+      display: flex;
+      align-items: center;
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .cart-icon, .dark-toggle {
+      position: relative;
+      font-size: 1.2rem;
+      color: var(--text);
+      cursor: pointer;
+      background: var(--surface);
+      padding: 0.4rem;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+    }
+    .cart-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--primary);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 600;
+      padding: 0.1rem 0.35rem;
+      border-radius: 20px;
+    }
+
+    /* ---------- CATEGORIES – HORIZONTAL SCROLL ---------- */
+    .categories-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 1.5rem;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .categories-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+    .categories {
+      display: flex;
+      gap: 0.5rem;
+      padding-bottom: 0.2rem;
+      flex-wrap: nowrap;
+    }
+    .category {
+      flex: 0 0 auto;
+      background: var(--surface);
+      padding: 0.4rem 1.2rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 500;
+      border: 1px solid var(--border);
+      cursor: pointer;
+      color: var(--text);
+      white-space: nowrap;
+    }
+    .category.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    /* ---------- PRODUCT GRID ---------- */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .product-card {
+      background: var(--surface);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--border);
+      transition: transform 0.2s;
+    }
+    .product-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .product-image {
+      height: 200px;
+      background: var(--primary-light);
+    }
+    .product-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .product-info {
+      padding: 0.8rem;
+    }
+    .product-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      margin-bottom: 0.2rem;
+      height: 40px;
+      overflow: hidden;
+    }
+    .product-price {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-bottom: 0.6rem;
+    }
+
+    /* BUTTONS – redesigned */
+    .product-actions {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      flex: 1 0 auto;
+      padding: 0.5rem 0.2rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .btn-view {
+      background: var(--surface);
+      color: var(--primary);
+      border: 1px solid var(--primary);
+    }
+    .btn-view:hover {
+      background: var(--primary-light);
+    }
+    .btn-add {
+      background: var(--primary);
+      color: white;
+      border: none;
+    }
+    .btn-add:hover {
+      background: var(--primary-dark);
+    }
+    .btn-chat {
+      background: var(--surface);
+      color: var(--text-light);
+      border: 1px solid var(--border);
+    }
+    .btn-chat:hover {
+      background: var(--border);
+    }
+
+    /* ---------- PRODUCT DETAIL PAGE (Jumia-style full page) ---------- */
+    .product-detail-page {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 20px;
+    }
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .back-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: 8px 20px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .detail-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .detail-image-section {
+      flex: 1 1 400px;
+    }
+    .detail-image-section img {
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+    .detail-info-section {
+      flex: 1 1 400px;
+    }
+    .detail-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 15px;
+    }
+    .detail-price {
+      font-size: 32px;
+      color: var(--primary);
+      font-weight: 700;
+      margin-bottom: 20px;
+    }
+    .detail-description {
+      font-size: 16px;
+      color: var(--text-light);
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+    .detail-actions {
+      display: flex;
+      gap: 15px;
+    }
+    .detail-actions .btn {
+      flex: 1;
+      padding: 15px 0;
+      font-size: 16px;
+    }
+
+    /* ---------- CART DRAWER ---------- */
+    .cart-drawer {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 380px;
+      max-width: 90%;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 1px solid var(--border);
+      box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+      transition: right 0.3s ease;
+      z-index: 1500;
+      display: flex;
+      flex-direction: column;
+      padding: 1.2rem;
+    }
+    .cart-drawer.open { right: 0; }
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    .close-cart { font-size: 1.6rem; cursor: pointer; }
+    .cart-items { flex: 1; overflow-y: auto; }
+    .cart-item {
+      display: flex;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .cart-item-img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .cart-item-details { flex: 1; }
+    .cart-item-qty {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-top: 0.2rem;
+    }
+    .qty-btn {
+      background: var(--border);
+      border: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .checkout-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-weight: 600;
+      margin-top: 1rem;
+      cursor: pointer;
+    }
+
+    /* ---------- CHECKOUT MODAL ---------- */
+    .checkout-modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      align-items: center;
+      justify-content: center;
+      z-index: 2500;
+      padding: 1rem;
+    }
+    .checkout-content {
+      background: var(--surface);
+      max-width: 480px;
+      width: 100%;
+      border-radius: 8px;
+      padding: 1.5rem;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.3rem; font-weight: 500; }
+    .form-group input, .form-group textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    /* ---------- CHAT MODAL – NOW OPENS WHATSAPP ---------- */
+    .chat-modal {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 5%;
+      width: 90%;
+      max-width: 340px;
+      background: var(--surface);
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0,0,0,0.3);
+      z-index: 1800;
+      border: 1px solid var(--border);
+    }
+    .chat-header {
+      background: var(--primary);
+      color: white;
+      padding: 0.8rem;
+      border-radius: 12px 12px 0 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .chat-header button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+    .chat-body { padding: 0.8rem; }
+    .bot-message {
+      background: var(--bg);
+      padding: 0.6rem;
+      border-radius: 8px;
+      margin-bottom: 0.6rem;
+    }
+    .chat-input {
+      display: flex;
+      gap: 8px;
+    }
+    .chat-input input {
+      flex: 1;
+      padding: 0.6rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      color: var(--text);
+    }
+
+    .floating-chat-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary);
+      color: white;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+      cursor: pointer;
+      border: none;
+      z-index: 1700;
+    }
+
+    /* ---------- FOOTER – SHORTER (original) ---------- */
+    footer {
+      background: var(--footer-bg);
+      color: var(--footer-text);
+      padding: 1.5rem 1.5rem 0.8rem;
+      margin-top: 2rem;
+    }
+    .footer-content {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+    }
+    .footer-section h3 {
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    .footer-section ul {
+      list-style: none;
+    }
+    .footer-section li {
+      margin-bottom: 0.3rem;
+    }
+    .footer-section a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.8rem;
+    }
+    .footer-section a:hover { color: white; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 0.3rem;
+    }
+    .contact-item i {
+      width: 1rem;
+      color: var(--primary);
+      font-size: 0.9rem;
+    }
+    .contact-item a {
+      font-size: 0.8rem;
+    }
+    .copyright {
+      text-align: center;
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #334155;
+      color: #94a3b8;
+      font-size: 0.7rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- ========== HEADER – ORIGINAL WITH SHORTER SEARCH BAR ========== -->
+  <div class="container">
+    <header>
+      <div class="logo">
+        <h1>JN Sourcing</h1>
+        <p>Nigeria · Your Personal Shopper</p>
+      </div>
+      <div class="header-row">
+        <div class="search-wrapper">
+          <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search products...">
+            <button id="searchBtn"><i class="fas fa-search"></i></button>
+          </div>
+        </div>
+        <div class="header-controls">
+          <div class="dark-toggle" id="darkToggle">
+            <i class="fas fa-moon"></i>
+          </div>
+          <div class="cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="cart-badge" id="cartBadge">0</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- ========== CATEGORIES ========== -->
+    <div class="categories-wrapper">
+      <div class="categories" id="categoryContainer">
+        <span class="category active" data-cat="all">All</span>
+        <span class="category" data-cat="Electronics">Electronics</span>
+        <span class="category" data-cat="Fashion">Fashion</span>
+        <span class="category" data-cat="Bags">Bags</span>
+        <span class="category" data-cat="Shoes">Shoes</span>
+        <span class="category" data-cat="Accessories">Accessories</span>
+        <span class="category" data-cat="Home">Home</span>
+        <span class="category" data-cat="Gadgets">Gadgets</span>
+      </div>
+    </div>
+
+    <!-- ========== PRODUCT GRID ========== -->
+    <div id="productGrid" class="product-grid"></div>
+  </div>
+
+  <!-- ========== PRODUCT DETAIL PAGE ========== -->
+  <div id="productDetailPage" class="product-detail-page">
+    <div class="detail-header">
+      <button class="back-btn" id="closeDetailPage"><i class="fas fa-arrow-left"></i> Back</button>
+      <h2>Product Details</h2>
+      <div style="width: 70px;"></div>
+    </div>
+    <div class="detail-content">
+      <div class="detail-image-section">
+        <img id="detailImage" src="" alt="">
+      </div>
+      <div class="detail-info-section">
+        <h1 id="detailTitle" class="detail-title"></h1>
+        <div id="detailPrice" class="detail-price"></div>
+        <p id="detailDescription" class="detail-description"></p>
+        <div class="detail-actions">
+          <button id="detailAddToCart" class="btn btn-add"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+          <button id="detailChat" class="btn btn-chat"><i class="fas fa-comment"></i> Chat</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== CART DRAWER ========== -->
+  <div id="cartDrawer" class="cart-drawer">
+    <div class="cart-header">
+      <h2>Your Cart</h2>
+      <span class="close-cart" id="closeCart">&times;</span>
+    </div>
+    <div id="cartItemsContainer" class="cart-items"></div>
+    <div>
+      <div class="cart-total" id="cartTotalDisplay" style="font-size:1.2rem; font-weight:700; margin:1rem 0;">Total: ₦0</div>
+      <button class="checkout-btn" id="checkoutBtn">Checkout</button>
+    </div>
+  </div>
+
+  <!-- ========== CHECKOUT MODAL – NOW SENDS ORDER VIA WHATSAPP ========== -->
+  <div id="checkoutModal" class="checkout-modal">
+    <div class="checkout-content">
+      <h2 style="margin-bottom:1rem;">Checkout</h2>
+      <div id="checkoutOrderSummary" style="background:var(--bg); padding:1rem; border-radius:6px; margin-bottom:1.5rem;"></div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="checkoutName" placeholder="John Doe">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" id="checkoutPhone" placeholder="0803 123 4567">
+      </div>
+      <div class="form-group">
+        <label>Delivery Address</label>
+        <textarea id="checkoutAddress" rows="2" placeholder="12, Awolowo Road, Ikeja, Lagos"></textarea>
+      </div>
+      <button id="placeOrderBtn" class="btn btn-add" style="width:100%; padding:0.8rem;">Place Order via WhatsApp</button>
+      <button id="closeCheckoutModal" style="width:100%; background:none; border:none; color:var(--text); margin-top:1rem; cursor:pointer;">Cancel</button>
+    </div>
+  </div>
+
+  <!-- ========== CHAT MODAL – OPENS WHATSAPP ========== -->
+  <div id="chatModal" class="chat-modal">
+    <div class="chat-header">
+      <h3><i class="fas fa-robot"></i> JN Assistant</h3>
+      <button id="closeChatBtn">&times;</button>
+    </div>
+    <div class="chat-body">
+      <div class="bot-message">
+        👋 Hello! Tell me what you need – your message will be sent directly to our WhatsApp.
+      </div>
+      <div id="chatProductContext" style="background:var(--primary-light); padding:0.5rem; border-radius:6px; margin-bottom:0.8rem; display:none;"></div>
+      <div class="chat-input">
+        <input type="text" id="userMessage" placeholder="Type your message...">
+        <button class="btn btn-add" id="sendChatBtn" style="padding:0.6rem 1rem;">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== FLOATING CHAT BUTTON ========== -->
+  <button class="floating-chat-btn" id="floatingChatBtn">
+    <i class="fas fa-comment-dots"></i>
+  </button>
+
+  <!-- ========== FOOTER – SHORTER (original) ========== -->
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>JN Sourcing</h3>
+        <p style="color:#cbd5e1; font-size:0.8rem; margin-bottom:0.5rem;">Your trusted personal shopper in Nigeria.</p>
+      </div>
+      <div class="footer-section">
+        <h3>Shop</h3>
+        <ul>
+          <li><a href="#" onclick="filterCategory('Electronics'); return false;">Electronics</a></li>
+          <li><a href="#" onclick="filterCategory('Fashion'); return false;">Fashion</a></li>
+          <li><a href="#" onclick="filterCategory('Bags'); return false;">Bags</a></li>
+          <li><a href="#" onclick="filterCategory('all'); return false;">All Products</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Policies</h3>
+        <ul>
+          <li><a href="return-policy.html">Return Policy</a></li>
+          <li><a href="shipping-policy.html">Shipping Policy</a></li>
+          <li><a href="privacy-policy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h3>Contact</h3>
+        <ul style="list-style: none; padding: 0;">
+          <li class="contact-item"><i class="fas fa-phone-alt"></i> <a href="tel:09119110314">0911-911-0314</a></li>
+          <li class="contact-item"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2349119110314">0911-911-0314</a></li>
+          <li class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:jn@jnsourcing.ng">jn@jnsourcing.ng</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="copyright">
+      © 2026 JN Sourcing. All prices in Nigerian Naira (₦).
+    </div>
+  </footer>
+
+  <script>
+    // ---------- 40 PRODUCTS (your full list) ----------
+    const products = [
+      { id: 1, title: "Classic Snapback Cap", price: 16500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S6aa25bcd6839497e8a3cb3172dcb9548X.jpg_220x220q75.jpg_.avif", desc: "Premium cotton snapback, one size fits all. Made from high-quality materials with adjustable strap at the back. Perfect for casual wear, outdoor activities, or as a fashion accessory. Available in multiple colors." },
+      { id: 2, title: "Vintage Dad Hat", price: 14800, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S75c1365fda3c45d483ccf1217bba1e6ct.jpg_220x220q75.jpg_.avif", desc: "Embroidered logo, low profile, adjustable strap. This vintage-style dad hat features a pre-curved brim and a relaxed fit. Made from soft cotton twill for all-day comfort. The adjustable metal buckle closure ensures a perfect fit for any head size." },
+      { id: 3, title: "Nike Dri-FIT Cap", price: 57200, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sd87b550e84544da89f993413257f4f0eu.jpg_220x220q75.jpg_.avif", desc: "Sweat-wicking fabric, curved brim. Official Nike Dri-FIT technology keeps you cool and dry during workouts or daily wear. The structured fit and curved brim provide excellent sun protection. Features embroidered Nike logo and adjustable back closure." },
+      { id: 4, title: "Designer Bucket Hat", price: 17800, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/Se2fa099f6d9c45b19aaa09c2d102407dS.jpg_220x220q75.jpg_.avif", desc: "Unisex bucket hat, 100% cotton. This trendy bucket hat is made from soft, breathable cotton. Features a wide brim for sun protection and a comfortable fit. Perfect for summer outings, festivals, or adding a stylish touch to any outfit." },
+      { id: 5, title: "Genuine Leather Backpack", price: 48900, cat: "Bags", img: "https://ae-pic-a1.aliexpress-media.com/kf/S52d8da4eb65b430fa2e4e9f2cdb451cfl.jpg_220x220q75.jpg_.avif", desc: "Handmade leather, fits 15-inch laptop. This premium leather backpack is crafted from genuine cowhide leather. Features a spacious main compartment, a padded laptop sleeve (fits up to 15 inches), and multiple front pockets for organization. Adjustable shoulder straps and a top handle for easy carrying." },
+      { id: 6, title: "Designer Tote Bag", price: 42500, cat: "Bags", img: "https://ae-pic-a1.aliexpress-media.com/kf/S467ff02f9eaf4763961954a25a75088ca.jpg_220x220q75.jpg_.avif", desc: "Genuine leather, gold hardware. This elegant tote bag is made from high-quality leather with gold-tone hardware. The spacious interior can hold all your daily essentials, and the top zip closure keeps items secure. Includes a detachable shoulder strap for versatile carrying options." },
+      { id: 7, title: "Travel Duffel Bag", price: 35900, cat: "Bags", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sa634b743ab6341b39abd18d05786562dt.jpg_220x220q75.jpg_.avif", desc: "60L duffel, waterproof. This large-capacity duffel bag is perfect for weekend trips or gym sessions. Made from water-resistant nylon with reinforced stitching. Features a spacious main compartment, interior pockets, and adjustable shoulder strap. Lightweight yet durable design." },
+      { id: 8, title: "Michael Kors Inspired Bag", price: 42500, cat: "Bags", img: "https://ae-pic-a1.aliexpress-media.com/kf/S4eeee061ed204919b922d651f57213b6N.jpg_220x220q75.jpg_.avif", desc: "Signature style, saffiano leather. This designer-inspired handbag features the iconic Saffiano leather texture and gold-tone hardware. The structured silhouette includes a top handle and detachable shoulder strap. Multiple interior pockets keep your belongings organized." },
+      { id: 9, title: "Air Max 90", price: 48500, cat: "Shoes", img: "https://ae-pic-a1.aliexpress-media.com/kf/S3b2108e618604312bc4859165d94d106q.jpg?has_lang=1&ver=2_220x220q75.jpg_.avif", desc: "Original style, white/red, size 40-45. These iconic sneakers feature the classic Air Max 90 design with visible air cushioning for all-day comfort. The upper combines leather, mesh, and synthetic materials for durability and breathability. Available in multiple sizes." },
+      { id: 10, title: "Ace Sneakers", price: 53000, cat: "Shoes", img: "https://ae-pic-a1.aliexpress-media.com/kf/S03ebdb2862e244ae94bfb0cd0d1deb64f.jpg_220x220q75.jpg_.avif", desc: "High-quality, embroidered bee design. These stylish sneakers feature intricate embroidered detailing on the side. Made from premium leather with a comfortable rubber sole. The low-top design pairs well with both casual and smart-casual outfits." },
+      { id: 11, title: "Leather Loafers", price: 32500, cat: "Shoes", img: "https://ae-pic-a1.aliexpress-media.com/kf/S3b7d1c687bb747578d44345b6d2788f6x.jpg?has_lang=1&ver=2_220x220q75.jpg_.avif", desc: "Genuine leather, perfect for office wear. These classic penny loafers are made from soft, genuine leather that molds to your feet over time. The cushioned insole provides all-day comfort, while the durable outsole offers good traction. Available in brown and black." },
+      { id: 12, title: "Yeezy Boost 350", price: 79000, cat: "Shoes", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sf736b543b27140ef8fd581e76f0052c51.jpg_220x220q75.jpg_.avif", desc: "Knit upper, comfortable boost sole. These popular sneakers feature a flexible Primeknit upper that adapts to your foot. The Boost midsole provides responsive cushioning with every step. The unique design and colorway make these a standout addition to any collection." },
+      { id: 13, title: "iPhone 13 Pro Max", price: 750000, cat: "Electronics", img: "https://ae-pic-a1.aliexpress-media.com/kf/S5940c33294a34fde943ea8715acb4233L.png_220x220.png_.avif", desc: "128GB, Sierra Blue, unlocked. The iPhone 13 Pro Max features a stunning 6.7-inch Super Retina XDR display with ProMotion for smooth scrolling. The triple-camera system includes Wide, Ultra Wide, and Telephoto lenses for professional-quality photos. Powered by the A15 Bionic chip for blazing-fast performance." },
+      { id: 14, title: "Samsung Galaxy S22 Ultra", price: 685000, cat: "Electronics", img: "https://ae-pic-a1.aliexpress-media.com/kf/S524acf32cbaa4c919fd1da25b345d198t.jpg?has_lang=1&ver=2_220x220q75.jpg_.avif", desc: "Phantom Black, 256GB. The Galaxy S22 Ultra combines the power of a Note with the camera innovation of the S series. It includes a built-in S Pen for precise control and creativity. The 108MP camera system captures stunning details, and the 5000mAh battery lasts all day." },
+      { id: 15, title: "MacBook Air M1", price: 695000, cat: "Electronics", img: "https://ae-pic-a1.aliexpress-media.com/kf/S7cf92673990d4ed6a17b221257ae126bY.jpg_220x220q75.jpg_.avif", desc: "13-inch, 8GB RAM, 256GB SSD. The MacBook Air with M1 chip delivers incredible performance in a silent, fanless design. The 13.3-inch Retina display is perfect for work and entertainment. With up to 18 hours of battery life, you can work all day without charging." },
+      { id: 16, title: "Sony WH-1000XM4", price: 185000, cat: "Electronics", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sf24ad2c5feac4e46bb0aa45302a0c69fD.jpg_220x220q75.jpg_.avif", desc: "Noise-cancelling, 30hr battery. Industry-leading noise cancellation with the new QN1 HD Noise Canceling Processor. The comfortable, lightweight design is perfect for long listening sessions. With up to 30 hours of battery life and quick charging, you'll never run out of power." },
+      { id: 17, title: "Slim Fit Jeans", price: 18900, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/S5a7a73e7401140509ca78b74c74f0da8K.jpg_220x220q75.jpg_.avif", desc: "Stretch denim, dark blue. These slim-fit jeans are made from a comfortable cotton blend with just enough stretch for all-day wear. The dark wash makes them versatile for both casual and smart-casual outfits. Classic five-pocket styling with a zip fly." },
+      { id: 18, title: "Polo T-Shirt", price: 12500, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/S19dcb376c5b94f20adf8c090053e8f64v.jpg_220x220q75.jpg_.avif", desc: "Cotton pique, embroidered logo. This classic polo shirt is made from breathable cotton pique fabric. Features a ribbed collar, three-button placket, and embroidered logo on the chest. Available in multiple colors. Perfect for casual Fridays or weekend outings." },
+      { id: 19, title: "Hoodie", price: 22900, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/Se57c48e150854d8f8044d1fdc6fa899dM.jpg_220x220q75.jpg_.avif", desc: "Kangaroo pocket, fleece lined. This comfortable hoodie is made from soft, fleece-lined fabric to keep you warm on cool days. Features an adjustable drawstring hood, a front kangaroo pocket, and ribbed cuffs and hem. Perfect for lounging or casual wear." },
+      { id: 20, title: "Blazer", price: 38500, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/S859be4db239342d2abee6de061300bc5O.jpg_220x220q75.jpg_.avif", desc: "Single-breasted, navy blue. This classic blazer is tailored from a comfortable polyester blend that resists wrinkles. The two-button closure, notched lapels, and front flap pockets create a timeless look. Perfect for business meetings, weddings, or any formal occasion." },
+      { id: 21, title: "Ray-Ban Aviator", price: 29500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S1d78784ed3b7494684152501a5e7a037r.jpg_220x220q75.jpg_.avif", desc: "Gold frame, green lenses. These classic aviator sunglasses feature a lightweight gold-toned metal frame and iconic green lenses that provide 100% UV protection. The adjustable nose pads ensure a comfortable fit for any face shape. A timeless style that never goes out of fashion." },
+      { id: 22, title: "Silver Chain", price: 18900, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S9f5b3df708fd43bd9ec043bad50530fap.jpg?has_lang=1&ver=1_220x220q75.jpg_.avif", desc: "Stainless steel, 22 inches. This stylish silver chain is made from high-quality stainless steel that resists tarnish and corrosion. The 22-inch length is perfect for wearing alone or with a pendant. The secure lobster clasp ensures it stays safely around your neck." },
+      { id: 23, title: "Leather Belt", price: 14500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/Seb7181fc14ec434d9c95577cb090218bs.jpg_220x220q75.jpg_.avif", desc: "Genuine leather, reversible. This versatile belt is made from genuine leather and is reversible from black to brown, giving you two belts in one. The classic roller buckle adds a touch of sophistication. Available in multiple sizes with easy cut-to-fit design." },
+      { id: 24, title: "Luxury Bracelet Set", price: 36500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S94ef045a9de8452385d028c2bb0438bcp.jpg_220x220q75.jpg_.avif", desc: "Elegant design, perfect for any occasion. This set includes three stylish bracelets that can be worn together or separately. Features a mix of materials including leather, beads, and stainless steel. The adjustable clasps ensure a perfect fit for any wrist size." },
+      { id: 25, title: "Non-stick Cookware Set", price: 56190, cat: "Home", img: "https://ae-pic-a1.aliexpress-media.com/kf/S134282fe88b543dda525ec28b3f2f017m.jpg_220x220q75.jpg_.avif", desc: "7-piece, granite coating. This 7-piece cookware set includes fry pans, saucepans, and a stock pot, all with a durable granite non-stick coating. The heat-resistant handles stay cool during cooking, and the tempered glass lids allow you to monitor your food. Compatible with all stovetops including induction." },
+      { id: 26, title: "LED Smart Bulb", price: 15900, cat: "Home", img: "https://ae-pic-a1.aliexpress-media.com/kf/S9419971d13514a6fa0a1df17b3afb121I.jpg_220x220q75.jpg_.avif", desc: "RGB, voice control, 4-pack. These smart LED bulbs offer 16 million colors and tunable white light, all controllable via app or voice assistant. Set schedules, create scenes, and sync with music. Each bulb lasts over 25,000 hours and uses 80% less energy than traditional bulbs." },
+      { id: 27, title: "Memory Foam Pillow", price: 18500, cat: "Home", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sc431862aa7284ec1806ae25574e37bc76.jpg_220x220q75.jpg_.avif", desc: "Ergonomic, cooling gel. This memory foam pillow is designed to provide optimal neck and spine alignment for restful sleep. The cooling gel infusion helps regulate temperature throughout the night. The removable, washable cover makes maintenance easy." },
+      { id: 28, title: "Air Fryer", price: 58500, cat: "Home", img: "https://ae-pic-a1.aliexpress-media.com/kf/S632c556fb8184f989b4c004388e48d05o.jpg_220x220q75.jpg_.avif", desc: "4.5L, digital touch. This digital air fryer uses rapid air circulation to fry, bake, roast, and grill with little to no oil. The 4.5L capacity is perfect for families, and the digital touch screen makes it easy to select cooking presets. Dishwasher-safe parts for easy cleaning." },
+      { id: 29, title: "Wireless Earbuds", price: 22900, cat: "Gadgets", img: "https://ae-pic-a1.aliexpress-media.com/kf/S18f9e557cb15496b8bae68e559b03bd2q.jpg_220x220q75.jpg_.avif", desc: "Bluetooth 5.3, charging case. These true wireless earbuds feature the latest Bluetooth 5.3 technology for stable connection and low latency. The compact charging case provides up to 24 hours of total playtime. Touch controls let you manage music and calls easily." },
+      { id: 30, title: "Power Bank 20000mAh", price: 47500, cat: "Gadgets", img: "https://ae-pic-a1.aliexpress-media.com/kf/S552a8dade36f498692e27d6640dcb8e9K.jpg_220x220q75.jpg_.avif", desc: "Fast charging, dual USB. This high-capacity power bank can charge your smartphone multiple times or your tablet at least once. Dual USB ports allow charging two devices simultaneously. The LED display shows exact remaining battery percentage." },
+      { id: 31, title: "Bluetooth Speaker", price: 27900, cat: "Gadgets", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sccf72e695e5c4a18a728fd1eea7a3f9ar.jpg_220x220q75.jpg_.avif", desc: "Waterproof, 20W. This portable Bluetooth speaker delivers powerful 20W sound in a compact, waterproof design. Perfect for outdoor adventures, beach trips, or poolside parties. The built-in microphone allows for hands-free calling. Up to 10 hours of playtime on a single charge." },
+      { id: 32, title: "Gaming Mouse", price: 29500, cat: "Gadgets", img: "https://ae-pic-a1.aliexpress-media.com/kf/Seced674397fb4958bf0789345ed10fccA.jpg_220x220q75.jpg_.avif", desc: "RGB, 16000 DPI. This high-precision gaming mouse features an adjustable DPI up to 16000 for lightning-fast response times. The customizable RGB lighting lets you match your setup. Six programmable buttons can be customized via software for macros and shortcuts." },
+      { id: 33, title: "Nike Air Force 1", price: 38900, cat: "Shoes", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sd026625488834f8789a9df004ce5c168s.jpg_220x220q75.jpg_.avif", desc: "All white, classic style. The Nike Air Force 1 is a timeless sneaker that has remained popular for decades. Features a full-grain leather upper for durability and support, and the encapsulated Air-Sole unit provides lightweight cushioning. The classic all-white colorway goes with everything." },
+      { id: 34, title: "Digital Watch", price: 25900, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S0309c8a9474e4ade8a868742c1bc59c9Z.png?has_lang=1&ver=2_220x220.png_.avif", desc: "Classic style, stopwatch. This retro-style digital watch features a large, easy-to-read LCD display. Functions include time, date, alarm, stopwatch, and backlight. The comfortable resin strap and lightweight design make it perfect for daily wear. Water-resistant for everyday use." },
+      { id: 35, title: "Coffee Machine", price: 93500, cat: "Home", img: "https://ae-pic-a1.aliexpress-media.com/kf/S796214860b904526824d18b105ceeed88.jpg?has_lang=1&ver=2_220x220q75.jpg_.avif", desc: "Espresso, 15 bar. This espresso machine features a 15-bar pump system that extracts rich, flavorful espresso with a perfect crema. The milk frother steamer lets you create cappuccinos and lattes at home. Includes a removable water tank and drip tray for easy cleaning." },
+      { id: 36, title: "iPad 10th Gen", price: 395000, cat: "Electronics", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sb438a7d60f3b4c4c8d07f17b9c58bf50h.jpg?has_lang=1&ver=1_220x220q75.jpg_.avif", desc: "10.9-inch, 64GB, Wi-Fi. The iPad (10th generation) features a stunning 10.9-inch Liquid Retina display and the powerful A14 Bionic chip. The landscape front camera is perfect for video calls, and USB-C connectivity makes it compatible with a wide range of accessories." },
+      { id: 37, title: "Wireless Charger", price: 29500, cat: "Gadgets", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sb7f916459de9443e96f955544f41f3942.jpg_220x220q75.jpg_.avif", desc: "15W fast charging, dual coil. This wireless charging pad delivers fast charging for compatible devices. The dual-coil design allows you to charge in either portrait or landscape orientation. Includes a USB-C cable and supports cases up to 5mm thick." },
+      { id: 38, title: "Polo Shirt", price: 13500, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/S48c052e93eee49a5abac3e3034bd54294.jpg_220x220q75.jpg_.avif", desc: "Classic fit, pique cotton. This essential polo shirt is made from breathable pique cotton for all-day comfort. Features a classic three-button placket and ribbed collar. The regular fit is perfect for any body type. Available in a variety of colors." },
+      { id: 39, title: "Suitcase", price: 98900, cat: "Bags", img: "https://ae-pic-a1.aliexpress-media.com/kf/S4ff7123f9b1e40f88fa390e7d3ced58bG.jpg_220x220q75.jpg_.avif", desc: "ABS+PC, spinner wheels, TSA lock. This durable suitcase is made from a lightweight ABS+PC material that resists scratches and impacts. The 360-degree spinner wheels provide smooth maneuverability, and the telescoping handle adjusts to multiple heights. Includes a built-in TSA-approved lock for secure travel." },
+      { id: 40, title: "Classic Leather Watch", price: 42500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/S9b4597b18503460c90e9550770e43543E.jpg_220x220q75.jpg_.avif", desc: "Elegant leather strap, analog display. This classic timepiece features a genuine leather strap and a clean analog dial with luminous hands for easy reading in low light. The stainless steel case is durable and water-resistant for everyday wear. A timeless accessory for any wardrobe." }
+    ];
+
+    // ---------- GLOBAL VARS ----------
+    let cart = JSON.parse(localStorage.getItem('jnCart')) || [];
+    let currentCategory = 'all';
+    let searchTerm = '';
+    let currentProductId = null;
+
+    // ---------- RENDER PRODUCTS ----------
+    function renderProducts() {
+      let filtered = products;
+      if (currentCategory !== 'all') filtered = filtered.filter(p => p.cat === currentCategory);
+      if (searchTerm) filtered = filtered.filter(p => p.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+      const grid = document.getElementById('productGrid');
+      if (filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column:1/-1; text-align:center; padding:20px;">No products found.</p>';
+        return;
+      }
+      grid.innerHTML = filtered.map(p => `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${p.img}" alt="${p.title}" loading="lazy">
+          </div>
+          <div class="product-info">
+            <div class="product-title">${p.title}</div>
+            <div class="product-price">₦${p.price.toLocaleString()}</div>
+            <div class="product-actions">
+              <button class="btn btn-view" onclick="openProductDetail(${p.id})"><i class="fas fa-eye"></i> View</button>
+              <button class="btn btn-add" onclick="addToCart(${p.id})"><i class="fas fa-cart-plus"></i> Add</button>
+              <button class="btn btn-chat" onclick='openChatWithProduct("${p.title}")'><i class="fas fa-comment"></i> Chat</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // ---------- CATEGORY FILTER ----------
+    window.filterCategory = function(cat) {
+      currentCategory = cat;
+      document.querySelectorAll('.category').forEach(c => c.classList.remove('active'));
+      const activeCat = document.querySelector(`.category[data-cat="${cat}"]`);
+      if (activeCat) activeCat.classList.add('active');
+      renderProducts();
+    };
+
+    // ---------- SEARCH ----------
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      searchTerm = document.getElementById('searchInput').value;
+      renderProducts();
+    });
+    document.getElementById('searchInput').addEventListener('keyup', (e) => {
+      if (e.key === 'Enter') {
+        searchTerm = e.target.value;
+        renderProducts();
+      }
+    });
+
+    // ---------- PRODUCT DETAIL PAGE ----------
+    function openProductDetail(id) {
+      const p = products.find(p => p.id === id);
+      if (!p) return;
+      currentProductId = p.id;
+      document.getElementById('detailImage').src = p.img;
+      document.getElementById('detailTitle').innerText = p.title;
+      document.getElementById('detailPrice').innerHTML = `₦${p.price.toLocaleString()}`;
+      document.getElementById('detailDescription').innerText = p.desc;
+      document.getElementById('productDetailPage').style.display = 'block';
+    }
+
+    document.getElementById('closeDetailPage').addEventListener('click', () => {
+      document.getElementById('productDetailPage').style.display = 'none';
+    });
+    document.getElementById('detailAddToCart').addEventListener('click', () => {
+      if (currentProductId) {
+        addToCart(currentProductId);
+      }
+    });
+    document.getElementById('detailChat').addEventListener('click', () => {
+      if (currentProductId) {
+        const p = products.find(p => p.id === currentProductId);
+        openChatWithProduct(p.title);
+        document.getElementById('productDetailPage').style.display = 'none';
+      }
+    });
+
+    // ---------- CART FUNCTIONS ----------
+    function addToCart(id) {
+      const product = products.find(p => p.id === id);
+      const existing = cart.find(item => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({ ...product, qty: 1 });
+      }
+      localStorage.setItem('jnCart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    function updateCartBadge() {
+      const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+      document.getElementById('cartBadge').innerText = totalQty;
+    }
+
+    function renderCartItems() {
+      const container = document.getElementById('cartItemsContainer');
+      if (cart.length === 0) {
+        container.innerHTML = '<p style="text-align:center; color:var(--text-light);">Your cart is empty.</p>';
+        document.getElementById('cartTotalDisplay').innerHTML = 'Total: ₦0';
+        return;
+      }
+      let html = '';
+      let total = 0;
+      cart.forEach(item => {
+        total += item.price * item.qty;
+        html += `
+          <div class="cart-item">
+            <img src="${item.img}" class="cart-item-img">
+            <div class="cart-item-details">
+              <div class="cart-item-title">${item.title}</div>
+              <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
+              <div class="cart-item-qty">
+                <button class="qty-btn" onclick="adjustQty(${item.id}, -1)">−</button>
+                <span>${item.qty}</span>
+                <button class="qty-btn" onclick="adjustQty(${item.id}, 1)">+</button>
+                <button class="qty-btn" onclick="removeFromCart(${item.id})" style="margin-left:0.5rem;"><i class="fas fa-trash"></i></button>
+              </div>
+            </div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+      document.getElementById('cartTotalDisplay').innerHTML = `Total: ₦${total.toLocaleString()}`;
+    }
+
+    function adjustQty(id, delta) {
+      const item = cart.find(i => i.id === id);
+      if (item) {
+        item.qty += delta;
+        if (item.qty <= 0) {
+          cart = cart.filter(i => i.id !== id);
+        }
+        localStorage.setItem('jnCart', JSON.stringify(cart));
+        updateCartBadge();
+        renderCartItems();
+      }
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter(i => i.id !== id);
+      localStorage.setItem('jnCart', JSON.stringify(cart));
+      updateCartBadge();
+      renderCartItems();
+    }
+
+    // ---------- CART DRAWER ----------
+    const cartDrawer = document.getElementById('cartDrawer');
+    document.getElementById('cartIcon').addEventListener('click', () => {
+      cartDrawer.classList.add('open');
+      renderCartItems();
+    });
+    document.getElementById('closeCart').addEventListener('click', () => {
+      cartDrawer.classList.remove('open');
+    });
+
+    // ---------- CHECKOUT – NOW SENDS ORDER VIA WHATSAPP ----------
+    const checkoutModal = document.getElementById('checkoutModal');
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (cart.length === 0) {
+        alert('Your cart is empty.');
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const itemsList = cart.map(i => `${i.title} x${i.qty}`).join(', ');
+      document.getElementById('checkoutOrderSummary').innerHTML = `<strong>Order Summary</strong><br>Items: ${itemsList}<br>Total: ₦${total.toLocaleString()}`;
+      checkoutModal.style.display = 'flex';
+      cartDrawer.classList.remove('open');
+    });
+
+    document.getElementById('closeCheckoutModal').addEventListener('click', () => {
+      checkoutModal.style.display = 'none';
+    });
+
+    document.getElementById('placeOrderBtn').addEventListener('click', function() {
+      const name = document.getElementById('checkoutName').value.trim();
+      const phone = document.getElementById('checkoutPhone').value.trim();
+      const address = document.getElementById('checkoutAddress').value.trim();
+      if (!name || !phone || !address) {
+        alert('Please fill in your name, phone number and address.');
+        return;
+      }
+      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+      const items = cart.map(i => `${i.title} (x${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('\n');
+      
+      // Format order message for WhatsApp
+      const orderMsg = `🛒 *NEW ORDER - JN Sourcing*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n\n*Items:*\n${items}\n\n*Total:* ₦${total.toLocaleString()}`;
+      const encodedMsg = encodeURIComponent(orderMsg);
+      
+      // Your WhatsApp number (international format without +)
+      const phoneNumber = '2349119110314'; // 0911-911-0314
+      
+      // Open WhatsApp with pre-filled message
+      window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
+      
+      // Optionally clear cart after order (or keep it if you want)
+      // cart = [];
+      // localStorage.setItem('jnCart', JSON.stringify(cart));
+      // updateCartBadge();
+      // renderCartItems();
+      
+      checkoutModal.style.display = 'none';
+    });
+
+    // ---------- CHAT – OPENS WHATSAPP ----------
+    function openChatModal() {
+      document.getElementById('chatModal').style.display = 'block';
+    }
+    function closeChatModal() {
+      document.getElementById('chatModal').style.display = 'none';
+    }
+    window.openChatWithProduct = function(productName) {
+      const ctx = document.getElementById('chatProductContext');
+      ctx.style.display = 'block';
+      ctx.innerHTML = `📦 You are asking about: <strong>${productName}</strong>`;
+      openChatModal();
+    };
+    document.getElementById('floatingChatBtn').addEventListener('click', openChatModal);
+    document.getElementById('closeChatBtn').addEventListener('click', closeChatModal);
+    document.getElementById('sendChatBtn').addEventListener('click', function() {
+      const msg = document.getElementById('userMessage').value.trim();
+      if (!msg) return;
+      
+      const ctx = document.getElementById('chatProductContext');
+      let product = 'Not specified';
+      if (ctx.style.display !== 'none') {
+        product = ctx.innerText.replace('📦 You are asking about:', '').trim();
+      }
+      
+      // Format message for WhatsApp
+      const fullMessage = `*JN Sourcing Chat*\nProduct: ${product}\nMessage: ${msg}`;
+      const encodedMessage = encodeURIComponent(fullMessage);
+      
+      // Your WhatsApp number (international format without +)
+      const phoneNumber = '2349119110314'; // 0911-911-0314
+      
+      // Open WhatsApp in new tab
+      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+      
+      // Clear input and close modal
+      document.getElementById('userMessage').value = '';
+      ctx.style.display = 'none';
+      closeChatModal();
+    });
+
+    // ---------- DARK MODE ----------
+    const darkToggle = document.getElementById('darkToggle');
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const icon = darkToggle.querySelector('i');
+      if (document.body.classList.contains('dark')) {
+        icon.classList.remove('fa-moon');
+        icon.classList.add('fa-sun');
+      } else {
+        icon.classList.remove('fa-sun');
+        icon.classList.add('fa-moon');
+      }
+      localStorage.setItem('jnDarkMode', document.body.classList.contains('dark') ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('jnDarkMode') === 'dark') {
+      document.body.classList.add('dark');
+      darkToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+    }
+
+    // ---------- INIT ----------
+    renderProducts();
+    updateCartBadge();
+    renderCartItems();
+
+    // attach category listeners
+    document.querySelectorAll('.category').forEach(cat => {
+      cat.addEventListener('click', () => filterCategory(cat.dataset.cat));
+    });
+  </script>
+</body>
+</html>
