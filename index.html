@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
   <title>JN Sourcing · Nigeria · Your Personal Shopper</title>
-  <!-- Font Awesome 6 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://js.paystack.co/v1/inline.js"></script>
   <style>
-    /* ---------- GLOBAL STYLES (original) ---------- */
+    /* ---------- YOUR ORIGINAL STYLES – UNCHANGED ---------- */
     * {
       margin: 0;
       padding: 0;
@@ -56,7 +56,7 @@
       padding: 0.75rem 1.5rem;
     }
 
-    /* ---------- HEADER – ORIGINAL WITH SHORTER SEARCH BAR ---------- */
+    /* ---------- HEADER ---------- */
     header {
       display: flex;
       flex-direction: column;
@@ -151,7 +151,7 @@
       border-radius: 20px;
     }
 
-    /* ---------- CATEGORIES – HORIZONTAL SCROLL ---------- */
+    /* ---------- CATEGORIES ---------- */
     .categories-wrapper {
       width: 100%;
       overflow-x: auto;
@@ -159,9 +159,7 @@
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
     }
-    .categories-wrapper::-webkit-scrollbar {
-      display: none;
-    }
+    .categories-wrapper::-webkit-scrollbar { display: none; }
     .categories {
       display: flex;
       gap: 0.5rem;
@@ -202,10 +200,7 @@
       border: 1px solid var(--border);
       transition: transform 0.2s;
     }
-    .product-card:hover {
-      transform: translateY(-3px);
-    }
-
+    .product-card:hover { transform: translateY(-3px); }
     .product-image {
       height: 200px;
       background: var(--primary-light);
@@ -215,7 +210,6 @@
       height: 100%;
       object-fit: cover;
     }
-
     .product-info {
       padding: 0.8rem;
     }
@@ -232,8 +226,6 @@
       font-size: 1.1rem;
       margin-bottom: 0.6rem;
     }
-
-    /* BUTTONS – redesigned */
     .product-actions {
       display: flex;
       gap: 0.4rem;
@@ -258,27 +250,21 @@
       color: var(--primary);
       border: 1px solid var(--primary);
     }
-    .btn-view:hover {
-      background: var(--primary-light);
-    }
+    .btn-view:hover { background: var(--primary-light); }
     .btn-add {
       background: var(--primary);
       color: white;
       border: none;
     }
-    .btn-add:hover {
-      background: var(--primary-dark);
-    }
+    .btn-add:hover { background: var(--primary-dark); }
     .btn-chat {
       background: var(--surface);
       color: var(--text-light);
       border: 1px solid var(--border);
     }
-    .btn-chat:hover {
-      background: var(--border);
-    }
+    .btn-chat:hover { background: var(--border); }
 
-    /* ---------- PRODUCT DETAIL PAGE (Jumia-style full page) ---------- */
+    /* ---------- PRODUCT DETAIL PAGE ---------- */
     .product-detail-page {
       display: none;
       position: fixed;
@@ -421,38 +407,7 @@
       cursor: pointer;
     }
 
-    /* ---------- CHECKOUT MODAL ---------- */
-    .checkout-modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0,0,0,0.5);
-      align-items: center;
-      justify-content: center;
-      z-index: 2500;
-      padding: 1rem;
-    }
-    .checkout-content {
-      background: var(--surface);
-      max-width: 480px;
-      width: 100%;
-      border-radius: 8px;
-      padding: 1.5rem;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .form-group { margin-bottom: 1rem; }
-    .form-group label { display: block; margin-bottom: 0.3rem; font-weight: 500; }
-    .form-group input, .form-group textarea {
-      width: 100%;
-      padding: 0.6rem;
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      background: var(--surface);
-      color: var(--text);
-    }
-
-    /* ---------- CHAT MODAL – NOW OPENS WHATSAPP ---------- */
+    /* ---------- CHAT MODAL ---------- */
     .chat-modal {
       display: none;
       position: fixed;
@@ -501,7 +456,6 @@
       background: var(--surface);
       color: var(--text);
     }
-
     .floating-chat-btn {
       position: fixed;
       bottom: 20px;
@@ -521,7 +475,7 @@
       z-index: 1700;
     }
 
-    /* ---------- FOOTER – SHORTER (original) ---------- */
+    /* ---------- FOOTER ---------- */
     footer {
       background: var(--footer-bg);
       color: var(--footer-text);
@@ -576,7 +530,6 @@
   </style>
 </head>
 <body>
-  <!-- ========== HEADER – ORIGINAL WITH SHORTER SEARCH BAR ========== -->
   <div class="container">
     <header>
       <div class="logo">
@@ -591,18 +544,12 @@
           </div>
         </div>
         <div class="header-controls">
-          <div class="dark-toggle" id="darkToggle">
-            <i class="fas fa-moon"></i>
-          </div>
-          <div class="cart-icon" id="cartIcon">
-            <i class="fas fa-shopping-cart"></i>
-            <span class="cart-badge" id="cartBadge">0</span>
-          </div>
+          <div class="dark-toggle" id="darkToggle"><i class="fas fa-moon"></i></div>
+          <div class="cart-icon" id="cartIcon"><i class="fas fa-shopping-cart"></i><span class="cart-badge" id="cartBadge">0</span></div>
         </div>
       </div>
     </header>
 
-    <!-- ========== CATEGORIES ========== -->
     <div class="categories-wrapper">
       <div class="categories" id="categoryContainer">
         <span class="category active" data-cat="all">All</span>
@@ -616,11 +563,10 @@
       </div>
     </div>
 
-    <!-- ========== PRODUCT GRID ========== -->
     <div id="productGrid" class="product-grid"></div>
   </div>
 
-  <!-- ========== PRODUCT DETAIL PAGE ========== -->
+  <!-- PRODUCT DETAIL PAGE -->
   <div id="productDetailPage" class="product-detail-page">
     <div class="detail-header">
       <button class="back-btn" id="closeDetailPage"><i class="fas fa-arrow-left"></i> Back</button>
@@ -628,9 +574,7 @@
       <div style="width: 70px;"></div>
     </div>
     <div class="detail-content">
-      <div class="detail-image-section">
-        <img id="detailImage" src="" alt="">
-      </div>
+      <div class="detail-image-section"><img id="detailImage" src="" alt=""></div>
       <div class="detail-info-section">
         <h1 id="detailTitle" class="detail-title"></h1>
         <div id="detailPrice" class="detail-price"></div>
@@ -643,105 +587,39 @@
     </div>
   </div>
 
-  <!-- ========== CART DRAWER ========== -->
+  <!-- CART DRAWER -->
   <div id="cartDrawer" class="cart-drawer">
-    <div class="cart-header">
-      <h2>Your Cart</h2>
-      <span class="close-cart" id="closeCart">&times;</span>
-    </div>
+    <div class="cart-header"><h2>Your Cart</h2><span class="close-cart" id="closeCart">&times;</span></div>
     <div id="cartItemsContainer" class="cart-items"></div>
-    <div>
-      <div class="cart-total" id="cartTotalDisplay" style="font-size:1.2rem; font-weight:700; margin:1rem 0;">Total: ₦0</div>
-      <button class="checkout-btn" id="checkoutBtn">Checkout</button>
-    </div>
+    <div><div class="cart-total" id="cartTotalDisplay" style="font-size:1.2rem; font-weight:700; margin:1rem 0;">Total: ₦0</div><button class="checkout-btn" id="checkoutBtn">Pay with Paystack</button></div>
   </div>
 
-  <!-- ========== CHECKOUT MODAL – NOW SENDS ORDER VIA WHATSAPP ========== -->
-  <div id="checkoutModal" class="checkout-modal">
-    <div class="checkout-content">
-      <h2 style="margin-bottom:1rem;">Checkout</h2>
-      <div id="checkoutOrderSummary" style="background:var(--bg); padding:1rem; border-radius:6px; margin-bottom:1.5rem;"></div>
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="checkoutName" placeholder="John Doe">
-      </div>
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="tel" id="checkoutPhone" placeholder="0803 123 4567">
-      </div>
-      <div class="form-group">
-        <label>Delivery Address</label>
-        <textarea id="checkoutAddress" rows="2" placeholder="12, Awolowo Road, Ikeja, Lagos"></textarea>
-      </div>
-      <button id="placeOrderBtn" class="btn btn-add" style="width:100%; padding:0.8rem;">Place Order via WhatsApp</button>
-      <button id="closeCheckoutModal" style="width:100%; background:none; border:none; color:var(--text); margin-top:1rem; cursor:pointer;">Cancel</button>
-    </div>
-  </div>
-
-  <!-- ========== CHAT MODAL – OPENS WHATSAPP ========== -->
+  <!-- CHAT MODAL -->
   <div id="chatModal" class="chat-modal">
-    <div class="chat-header">
-      <h3><i class="fas fa-robot"></i> JN Assistant</h3>
-      <button id="closeChatBtn">&times;</button>
-    </div>
+    <div class="chat-header"><h3><i class="fas fa-robot"></i> JN Assistant</h3><button id="closeChatBtn">&times;</button></div>
     <div class="chat-body">
-      <div class="bot-message">
-        👋 Hello! Tell me what you need – your message will be sent directly to our WhatsApp.
-      </div>
+      <div class="bot-message">👋 Hello! Tell me what you need – your message will be sent directly to our WhatsApp.</div>
       <div id="chatProductContext" style="background:var(--primary-light); padding:0.5rem; border-radius:6px; margin-bottom:0.8rem; display:none;"></div>
-      <div class="chat-input">
-        <input type="text" id="userMessage" placeholder="Type your message...">
-        <button class="btn btn-add" id="sendChatBtn" style="padding:0.6rem 1rem;">Send</button>
-      </div>
+      <div class="chat-input"><input type="text" id="userMessage" placeholder="Type your message..."><button class="btn btn-add" id="sendChatBtn" style="padding:0.6rem 1rem;">Send</button></div>
     </div>
   </div>
 
-  <!-- ========== FLOATING CHAT BUTTON ========== -->
-  <button class="floating-chat-btn" id="floatingChatBtn">
-    <i class="fas fa-comment-dots"></i>
-  </button>
+  <button class="floating-chat-btn" id="floatingChatBtn"><i class="fas fa-comment-dots"></i></button>
 
-  <!-- ========== FOOTER – SHORTER (original) ========== -->
   <footer>
     <div class="footer-content">
-      <div class="footer-section">
-        <h3>JN Sourcing</h3>
-        <p style="color:#cbd5e1; font-size:0.8rem; margin-bottom:0.5rem;">Your trusted personal shopper in Nigeria.</p>
-      </div>
-      <div class="footer-section">
-        <h3>Shop</h3>
-        <ul>
-          <li><a href="#" onclick="filterCategory('Electronics'); return false;">Electronics</a></li>
-          <li><a href="#" onclick="filterCategory('Fashion'); return false;">Fashion</a></li>
-          <li><a href="#" onclick="filterCategory('Bags'); return false;">Bags</a></li>
-          <li><a href="#" onclick="filterCategory('all'); return false;">All Products</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Policies</h3>
-        <ul>
-          <li><a href="return-policy.html">Return Policy</a></li>
-          <li><a href="shipping-policy.html">Shipping Policy</a></li>
-          <li><a href="privacy-policy.html">Privacy Policy</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h3>Contact</h3>
-        <ul style="list-style: none; padding: 0;">
-          <li class="contact-item"><i class="fas fa-phone-alt"></i> <a href="tel:09119110314">0911-911-0314</a></li>
-          <li class="contact-item"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2349119110314">0911-911-0314</a></li>
-          <li class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:jn@jnsourcing.ng">jn@jnsourcing.ng</a></li>
-        </ul>
-      </div>
+      <div class="footer-section"><h3>JN Sourcing</h3><p style="color:#cbd5e1; font-size:0.8rem;">Your trusted personal shopper in Nigeria.</p></div>
+      <div class="footer-section"><h3>Shop</h3><ul><li><a href="#" onclick="filterCategory('Electronics'); return false;">Electronics</a></li><li><a href="#" onclick="filterCategory('Fashion'); return false;">Fashion</a></li><li><a href="#" onclick="filterCategory('Bags'); return false;">Bags</a></li><li><a href="#" onclick="filterCategory('all'); return false;">All Products</a></li></ul></div>
+      <div class="footer-section"><h3>Policies</h3><ul><li><a href="return-policy.html">Return Policy</a></li><li><a href="shipping-policy.html">Shipping Policy</a></li><li><a href="privacy-policy.html">Privacy Policy</a></li></ul></div>
+      <div class="footer-section"><h3>Contact</h3><ul style="list-style: none;"><li class="contact-item"><i class="fas fa-phone-alt"></i> <a href="tel:09119110314">0911-911-0314</a></li><li class="contact-item"><i class="fab fa-whatsapp"></i> <a href="https://wa.me/2349119110314">0911-911-0314</a></li><li class="contact-item"><i class="fas fa-envelope"></i> <a href="mailto:jn@jnsourcing.ng">jn@jnsourcing.ng</a></li></ul></div>
     </div>
-    <div class="copyright">
-      © 2026 JN Sourcing. All prices in Nigerian Naira (₦).
-    </div>
+    <div class="copyright">© 2026 JN Sourcing. All prices in Nigerian Naira (₦).</div>
   </footer>
 
   <script>
-    // ---------- 40 PRODUCTS (your full list) ----------
+    // ---------- 41 PRODUCTS (first uses local skirt.jpg) ----------
     const products = [
+      { id: 101, title: "Pleated long skirt [black]", price: 262500, cat: "Fashion", img: "skirt.jpg", desc: "Elegant black pleated long skirt, crafted from high-quality fabric. Flowing A-line silhouette with delicate pleats. Perfect for office wear, dinners, or special occasions. Pair with a blouse or fitted top for a chic look. Available in one size." },
       { id: 1, title: "Men's Luxury Wristwatch", price: 16500, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sd5f1f3ec0b9a404da7ddee632b8a725dl.jpg_960x960q75.jpg_.avif", desc: "Elegant men's luxury wristwatch with stainless steel strap and classic dial design. Features precise quartz movement, water-resistant construction, and scratch-resistant mineral glass. Perfect for formal occasions or daily wear. Comes in an elegant gift box." },
       { id: 2, title: "Comfortable Slides Flip Flops", price: 14800, cat: "Accessories", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sf8adcf59965d49de9a79b478de2f72d4m.jpg_960x960q75.jpg_.avif", desc: "Soft and comfortable slides/flip flops for men and women. Made from high-quality EVA material that is lightweight, durable, and quick-drying. Features a textured footbed for massage effect and slip-resistant outsole. Perfect for beach, pool, shower, or casual home wear." },
       { id: 3, title: "Nike Dri-FIT Cap", price: 57200, cat: "Fashion", img: "https://ae-pic-a1.aliexpress-media.com/kf/Sd87b550e84544da89f993413257f4f0eu.jpg_220x220q75.jpg_.avif", desc: "Sweat-wicking fabric, curved brim. Official Nike Dri-FIT technology keeps you cool and dry during workouts or daily wear. The structured fit and curved brim provide excellent sun protection. Features embroidered Nike logo and adjustable back closure." },
@@ -803,9 +681,7 @@
       }
       grid.innerHTML = filtered.map(p => `
         <div class="product-card">
-          <div class="product-image">
-            <img src="${p.img}" alt="${p.title}" loading="lazy">
-          </div>
+          <div class="product-image"><img src="${p.img}" alt="${p.title}" loading="lazy"></div>
           <div class="product-info">
             <div class="product-title">${p.title}</div>
             <div class="product-price">₦${p.price.toLocaleString()}</div>
@@ -834,13 +710,10 @@
       renderProducts();
     });
     document.getElementById('searchInput').addEventListener('keyup', (e) => {
-      if (e.key === 'Enter') {
-        searchTerm = e.target.value;
-        renderProducts();
-      }
+      if (e.key === 'Enter') { searchTerm = e.target.value; renderProducts(); }
     });
 
-    // ---------- PRODUCT DETAIL PAGE ----------
+    // ---------- PRODUCT DETAIL ----------
     function openProductDetail(id) {
       const p = products.find(p => p.id === id);
       if (!p) return;
@@ -851,14 +724,11 @@
       document.getElementById('detailDescription').innerText = p.desc;
       document.getElementById('productDetailPage').style.display = 'block';
     }
-
     document.getElementById('closeDetailPage').addEventListener('click', () => {
       document.getElementById('productDetailPage').style.display = 'none';
     });
     document.getElementById('detailAddToCart').addEventListener('click', () => {
-      if (currentProductId) {
-        addToCart(currentProductId);
-      }
+      if (currentProductId) addToCart(currentProductId);
     });
     document.getElementById('detailChat').addEventListener('click', () => {
       if (currentProductId) {
@@ -872,21 +742,16 @@
     function addToCart(id) {
       const product = products.find(p => p.id === id);
       const existing = cart.find(item => item.id === id);
-      if (existing) {
-        existing.qty += 1;
-      } else {
-        cart.push({ ...product, qty: 1 });
-      }
+      if (existing) existing.qty += 1;
+      else cart.push({ ...product, qty: 1 });
       localStorage.setItem('jnCart', JSON.stringify(cart));
       updateCartBadge();
       renderCartItems();
     }
-
     function updateCartBadge() {
       const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
       document.getElementById('cartBadge').innerText = totalQty;
     }
-
     function renderCartItems() {
       const container = document.getElementById('cartItemsContainer');
       if (cart.length === 0) {
@@ -894,49 +759,30 @@
         document.getElementById('cartTotalDisplay').innerHTML = 'Total: ₦0';
         return;
       }
-      let html = '';
-      let total = 0;
+      let html = '', total = 0;
       cart.forEach(item => {
         total += item.price * item.qty;
-        html += `
-          <div class="cart-item">
-            <img src="${item.img}" class="cart-item-img">
-            <div class="cart-item-details">
-              <div class="cart-item-title">${item.title}</div>
-              <div class="cart-item-price">₦${item.price.toLocaleString()}</div>
-              <div class="cart-item-qty">
-                <button class="qty-btn" onclick="adjustQty(${item.id}, -1)">−</button>
-                <span>${item.qty}</span>
-                <button class="qty-btn" onclick="adjustQty(${item.id}, 1)">+</button>
-                <button class="qty-btn" onclick="removeFromCart(${item.id})" style="margin-left:0.5rem;"><i class="fas fa-trash"></i></button>
-              </div>
-            </div>
-          </div>
-        `;
+        html += `<div class="cart-item"><img src="${item.img}" class="cart-item-img"><div class="cart-item-details"><div class="cart-item-title">${item.title}</div><div class="cart-item-price">₦${item.price.toLocaleString()}</div><div class="cart-item-qty"><button class="qty-btn" onclick="adjustQty(${item.id}, -1)">−</button><span>${item.qty}</span><button class="qty-btn" onclick="adjustQty(${item.id}, 1)">+</button><button class="qty-btn" onclick="removeFromCart(${item.id})" style="margin-left:0.5rem;"><i class="fas fa-trash"></i></button></div></div></div>`;
       });
       container.innerHTML = html;
       document.getElementById('cartTotalDisplay').innerHTML = `Total: ₦${total.toLocaleString()}`;
     }
-
-    function adjustQty(id, delta) {
+    window.adjustQty = function(id, delta) {
       const item = cart.find(i => i.id === id);
       if (item) {
         item.qty += delta;
-        if (item.qty <= 0) {
-          cart = cart.filter(i => i.id !== id);
-        }
+        if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
         localStorage.setItem('jnCart', JSON.stringify(cart));
         updateCartBadge();
         renderCartItems();
       }
-    }
-
-    function removeFromCart(id) {
+    };
+    window.removeFromCart = function(id) {
       cart = cart.filter(i => i.id !== id);
       localStorage.setItem('jnCart', JSON.stringify(cart));
       updateCartBadge();
       renderCartItems();
-    }
+    };
 
     // ---------- CART DRAWER ----------
     const cartDrawer = document.getElementById('cartDrawer');
@@ -948,61 +794,42 @@
       cartDrawer.classList.remove('open');
     });
 
-    // ---------- CHECKOUT – NOW SENDS ORDER VIA WHATSAPP ----------
-    const checkoutModal = document.getElementById('checkoutModal');
-    document.getElementById('checkoutBtn').addEventListener('click', () => {
+    // ---------- PAYSTACK CHECKOUT ----------
+    const checkoutBtn = document.getElementById('checkoutBtn');
+    checkoutBtn.onclick = () => {
       if (cart.length === 0) {
         alert('Your cart is empty.');
         return;
       }
       const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-      const itemsList = cart.map(i => `${i.title} x${i.qty}`).join(', ');
-      document.getElementById('checkoutOrderSummary').innerHTML = `<strong>Order Summary</strong><br>Items: ${itemsList}<br>Total: ₦${total.toLocaleString()}`;
-      checkoutModal.style.display = 'flex';
-      cartDrawer.classList.remove('open');
-    });
+      const amountInKobo = total * 100;
+      const customerEmail = localStorage.getItem('userEmail') || 'customer@example.com';
+      const reference = `JN_${Date.now()}_${Math.floor(Math.random() * 10000)}`;
 
-    document.getElementById('closeCheckoutModal').addEventListener('click', () => {
-      checkoutModal.style.display = 'none';
-    });
+      const handler = PaystackPop.setup({
+        key: 'pk_live_208ca720cbf4558e017147bf621369b93a316c3b',
+        email: customerEmail,
+        amount: amountInKobo,
+        currency: 'NGN',
+        ref: reference,
+        callback: function(response) {
+          alert('Payment successful! Transaction reference: ' + response.reference);
+          cart = [];
+          localStorage.setItem('jnCart', JSON.stringify(cart));
+          updateCartBadge();
+          renderCartItems();
+          cartDrawer.classList.remove('open');
+        },
+        onClose: function() {
+          alert('Transaction cancelled.');
+        }
+      });
+      handler.openIframe();
+    };
 
-    document.getElementById('placeOrderBtn').addEventListener('click', function() {
-      const name = document.getElementById('checkoutName').value.trim();
-      const phone = document.getElementById('checkoutPhone').value.trim();
-      const address = document.getElementById('checkoutAddress').value.trim();
-      if (!name || !phone || !address) {
-        alert('Please fill in your name, phone number and address.');
-        return;
-      }
-      const total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-      const items = cart.map(i => `${i.title} (x${i.qty}) - ₦${(i.price * i.qty).toLocaleString()}`).join('\n');
-      
-      // Format order message for WhatsApp
-      const orderMsg = `🛒 *NEW ORDER - JN Sourcing*\n\n*Name:* ${name}\n*Phone:* ${phone}\n*Address:* ${address}\n\n*Items:*\n${items}\n\n*Total:* ₦${total.toLocaleString()}`;
-      const encodedMsg = encodeURIComponent(orderMsg);
-      
-      // Your WhatsApp number (international format without +)
-      const phoneNumber = '2349119110314'; // 0911-911-0314
-      
-      // Open WhatsApp with pre-filled message
-      window.open(`https://wa.me/${phoneNumber}?text=${encodedMsg}`, '_blank');
-      
-      // Optionally clear cart after order (or keep it if you want)
-      // cart = [];
-      // localStorage.setItem('jnCart', JSON.stringify(cart));
-      // updateCartBadge();
-      // renderCartItems();
-      
-      checkoutModal.style.display = 'none';
-    });
-
-    // ---------- CHAT – OPENS WHATSAPP ----------
-    function openChatModal() {
-      document.getElementById('chatModal').style.display = 'block';
-    }
-    function closeChatModal() {
-      document.getElementById('chatModal').style.display = 'none';
-    }
+    // ---------- CHAT ----------
+    function openChatModal() { document.getElementById('chatModal').style.display = 'block'; }
+    function closeChatModal() { document.getElementById('chatModal').style.display = 'none'; }
     window.openChatWithProduct = function(productName) {
       const ctx = document.getElementById('chatProductContext');
       ctx.style.display = 'block';
@@ -1014,24 +841,11 @@
     document.getElementById('sendChatBtn').addEventListener('click', function() {
       const msg = document.getElementById('userMessage').value.trim();
       if (!msg) return;
-      
       const ctx = document.getElementById('chatProductContext');
       let product = 'Not specified';
-      if (ctx.style.display !== 'none') {
-        product = ctx.innerText.replace('📦 You are asking about:', '').trim();
-      }
-      
-      // Format message for WhatsApp
+      if (ctx.style.display !== 'none') product = ctx.innerText.replace('📦 You are asking about:', '').trim();
       const fullMessage = `*JN Sourcing Chat*\nProduct: ${product}\nMessage: ${msg}`;
-      const encodedMessage = encodeURIComponent(fullMessage);
-      
-      // Your WhatsApp number (international format without +)
-      const phoneNumber = '2349119110314'; // 0911-911-0314
-      
-      // Open WhatsApp in new tab
-      window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
-      
-      // Clear input and close modal
+      window.open(`https://wa.me/2349119110314?text=${encodeURIComponent(fullMessage)}`, '_blank');
       document.getElementById('userMessage').value = '';
       ctx.style.display = 'none';
       closeChatModal();
@@ -1060,8 +874,6 @@
     renderProducts();
     updateCartBadge();
     renderCartItems();
-
-    // attach category listeners
     document.querySelectorAll('.category').forEach(cat => {
       cat.addEventListener('click', () => filterCategory(cat.dataset.cat));
     });
